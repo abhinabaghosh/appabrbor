@@ -70,8 +70,11 @@ app.post('/sendMail', function(request, response){
 
 });
 
+var node_port = process.env.PORT || '8080';
+node_port = parseInt(node_port);
+app.listen(node_port);
 
-app.listen(8000);
+app.listen(80);
 
 console.log("server initialized");
 
