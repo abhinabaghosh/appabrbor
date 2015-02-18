@@ -12,9 +12,8 @@
     	$scope.submit = function() {
 
     		//var url="http://www.apparbor.com:8000/sendMail";
-    		//var url="node/sendMail";
+    		var url="node/sendMail";
     		//var url="http://localhost:8000/sendMail";
-        var url="sendMail";
 
     		var senderName  =   $scope.userName;
 		    var senderEmail =   $scope.userEmail;
@@ -65,10 +64,11 @@
 			});
 
     	};
-    		
+    	/*
     	$scope.userName  =   "dsf";
 	    $scope.userEmail =   "a@com";
 	    $scope.userMsg    =  "adsd";
+      */
 
 
     };

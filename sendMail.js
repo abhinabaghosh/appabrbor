@@ -9,8 +9,10 @@ var express = require('express');
  * 'body-parser' must be installed (via `npm install --save body-parser`)
  * For more info see: https://github.com/expressjs/body-parser
  */
+ /**/
 var bodyParser = require('body-parser');
 var nodemailer = require('nodemailer');
+var util = require('util');
 // create our app
 var app = express();
 
@@ -41,40 +43,58 @@ app.use(allowCrossDomain);
 
 
 app.post('/sendMail', function(request, response){
+		try {
 
-    var senderName  =   request.body.name;
-    var senderEmail =   request.body.email;
-    var message     =   request.body.message;
+				var senderName  =   request.body.name;
+			    var senderEmail =   request.body.email;
+			    var message     =   request.body.message;
 
-    console.log(senderName);  
-    console.log(senderEmail);  
-    console.log(message);
+			    console.log(senderName);  
+			    //console.log(senderEmail);  
+			    //console.log(message);
+			    var mailOptions = {
+			    from: senderName +'<'+senderEmail+'>', // sender address
+			    to: 'ag.grandmaster@gmail.com, murali.yellepeddy@gmail.com', // list of receivers
+			    subject: 'AppArbor Contact ✔', // Subject line
+			    text: message, // plaintext body
+			    html: '<b>'+message+'</b>' // html body
+					};
 
-
-    var mailOptions = {
-    from: senderName +'<'+senderEmail+'>', // sender address
-    to: 'ag.grandmaster@gmail.com, murali.yellepeddy@gmail.com', // list of receivers
-    subject: 'AppArbor Contact ✔', // Subject line
-    text: message, // plaintext body
-    html: '<b>'+message+'</b>' // html body
-		};
-
-	var transporter =	nodemailer.createTransport();
-	transporter.sendMail(mailOptions, function(error, info){
-	    if(error){
-	         response.send('{"status":false,"info":"'+error+'"}');
-	    }else{
-	         response.send('{"status":true}');
-	    }
-	});
-
+				var transporter =	nodemailer.createTransport();
+				transporter.sendMail(mailOptions, function(error, info){
+				    if(error){
+				         response.send('{"status":false,"info":"'+error+'"}');
+				    }else{
+				         response.send('{"status":true}');
+				    }
+				});
+		} 
+		catch (ex) {
+				response.send('{"status":false,"info":"'+ex+'"}');
+		}
 });
 
-var node_port = process.env.PORT || '8080';
-node_port = parseInt(node_port);
-app.listen(node_port);
 
-app.listen(80);
+app.route('/')
+    .get(function(req, res) {
+      res.sendfile('index.html');
+    });
+
+ //res.sendFile
+
+app.route('/*')
+    .get(function(req, res) {
+    	//console.log("mountpath-->", req.originalUrl);
+    	//console.log(util.inspect(req, false, null));
+      res.sendfile("./"+req.originalUrl);
+    });
+
+
+var node_port = process.env.PORT || '8000';
+node_port = parseInt(node_port);
+
+
+app.listen(node_port);
 
 console.log("server initialized");
 
