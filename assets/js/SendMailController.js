@@ -12,7 +12,7 @@
     	$scope.submit = function() {
 
     		//var url="http://www.apparbor.com:8000/sendMail";
-    		var url="node/sendMail";
+    		var url="sendMail";
     		//var url="http://localhost:8000/sendMail";
 
     		var senderName  =   $scope.userName;
